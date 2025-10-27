@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+
+:root {
+	--bg-primary: rgb(255 255 255);
+	--bg-secondary: rgb(249 250 251);
+	--text-primary: rgb(17 24 39);
+	--text-secondary: rgb(55 65 81);
+	--border-color: rgb(209 213 219);
+}
+
+:root.dark {
+	--bg-primary: rgb(17 24 39);
+	--bg-secondary: rgb(31 41 55);
+	--text-primary: rgb(243 244 246);
+	--text-secondary: rgb(209 213 219);
+	--border-color: rgb(75 85 99);
+}
+
+/* Force dark mode styles when .dark class is present */
+:root.dark {
+	background-color: rgb(17 24 39) !important;
+	color: rgb(243 244 246) !important;
+}
+
+:root.dark body {
+	background-color: rgb(17 24 39) !important;
+	color: rgb(243 244 246) !important;
+}
+
+:root.dark .bg-white {
+	background-color: rgb(17 24 39) !important;
+}
+
+:root.dark .bg-gray-900 {
+	background-color: rgb(17 24 39) !important;
+}
+
+:root.dark .text-gray-900 {
+	color: rgb(243 244 246) !important;
+}
+
+:root.dark .text-gray-500 {
+	color: rgb(156 163 175) !important;
+}
+
+:root.dark .text-gray-600 {
+	color: rgb(209 213 219) !important;
+}
+
+:root.dark .text-gray-400 {
+	color: rgb(156 163 175) !important;
+}
+
+:root.dark .border-gray-200 {
+	border-color: rgb(75 85 99) !important;
+}
+
+:root.dark .border-gray-700 {
+	border-color: rgb(75 85 99) !important;
+}
+
+:root.dark .border-gray-600 {
+	border-color: rgb(75 85 99) !important;
+}
+
+:root.dark .bg-gray-800 {
+	background-color: rgb(31 41 55) !important;
+}
+
+:root.dark .hover\:bg-gray-50:hover {
+	background-color: rgb(55 65 81) !important;
+}
+
+:root.dark .hover\:bg-gray-100:hover {
+	background-color: rgb(55 65 81) !important;
+}
+
+:root.dark .hover\:bg-gray-700:hover {
+	background-color: rgb(55 65 81) !important;
+}
+
+:root.dark .hover\:text-gray-900:hover {
+	color: rgb(243 244 246) !important;
+}
+
+:root.dark .hover\:text-white:hover {
+	color: rgb(243 244 246) !important;
+}
+
+@layer components {
+	/* Smooth transitions for dark mode */
+	* {
+		transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+	}
+
+	/* Custom scrollbar styling */
+	/* Webkit browsers (Chrome, Safari, Edge) */
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: rgb(243 244 246);
+		border-radius: 4px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: rgb(156 163 175);
+		border-radius: 4px;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: rgb(107 114 128);
+	}
+
+	/* Dark mode scrollbars */
+	:root.dark ::-webkit-scrollbar-track {
+		background: rgb(31 41 55);
+	}
+
+	:root.dark ::-webkit-scrollbar-thumb {
+		background: rgb(75 85 99);
+	}
+
+	:root.dark ::-webkit-scrollbar-thumb:hover {
+		background: rgb(107 114 128);
+	}
+
+	/* Firefox scrollbar styling */
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: rgb(156 163 175) rgb(243 244 246);
+	}
+
+	:root.dark * {
+		scrollbar-color: rgb(75 85 99) rgb(31 41 55);
+	}
+}

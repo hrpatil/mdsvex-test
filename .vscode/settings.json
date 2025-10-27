@@ -1,0 +1,19 @@
+{
+  "mcp.servers": {
+    "tailwindcss": {
+      "command": "tailwindcss-mcp-server",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  },
+  "tailwindCSS.includeLanguages": {
+    "svelte": "html"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["class:([^=]+)=\"([^\"]+)\"", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["class=\"([^\"]+)\"", "([a-zA-Z0-9\\-:]+)"]
+  ]
+}

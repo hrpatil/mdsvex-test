@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tailwindcss": {
+      "command": "tailwindcss-mcp-server",
+      "args": [],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  }
+}
