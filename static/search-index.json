@@ -1,0 +1,472 @@
+[
+  {
+    "slug": "basic-concepts",
+    "title": "Basic Concepts",
+    "content": "Basic Concepts Understanding these fundamental concepts will help you build better SvelteKit applications. Routing SvelteKit uses a filesystem-based router. Each file in the directory corresponds to a route in your application. Route Parameters Dynamic routes are created by wrapping a filename in square brackets: - → - → Layout Routes Create a file to define a layout for all routes in a directory. Layouts can be nested. Pages and Components Pages () A file in any directory creates a route. This file exports a default Svelte component. Layouts () Layouts are Svelte components that wrap other components. They receive a prop and a slot. Server and Client Code Server Code () Functions in a file named run only on the server. Use this to: - Query databases - Access environment variables - Handle sensitive operations Client Code Code in files runs in the browser. Use this to: - Handle user interactions - Manage client state - Update the DOM Loading Data The function in a or file runs before the component renders: The data is then available in your component.",
+    "headings": [
+      "Routing",
+      "Route Parameters",
+      "Layout Routes",
+      "Pages and Components",
+      "Pages (`+page.svelte`)",
+      "Layouts (`+layout.svelte`)",
+      "Server and Client Code",
+      "Server Code (`+page.server.js`)",
+      "Client Code",
+      "Loading Data"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "Routing",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Route Parameters",
+        "level": 3,
+        "id": "heading-1-1"
+      },
+      {
+        "text": "Layout Routes",
+        "level": 3,
+        "id": "heading-1-2"
+      },
+      {
+        "text": "Pages and Components",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Pages (`+page.svelte`)",
+        "level": 3,
+        "id": "heading-2-1"
+      },
+      {
+        "text": "Layouts (`+layout.svelte`)",
+        "level": 3,
+        "id": "heading-2-2"
+      },
+      {
+        "text": "Server and Client Code",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Server Code (`+page.server.js`)",
+        "level": 3,
+        "id": "heading-3-1"
+      },
+      {
+        "text": "Client Code",
+        "level": 3,
+        "id": "heading-3-2"
+      },
+      {
+        "text": "Loading Data",
+        "level": 2,
+        "id": "heading-4"
+      }
+    ],
+    "searchText": "basic concepts routing route parameters layout routes pages and components pages (`+page.svelte`) layouts (`+layout.svelte`) server and client code server code (`+page.server.js`) client code loading data basic concepts understanding these fundamental concepts will help you build better sveltekit applications. routing sveltekit uses a filesystem-based router. each file in the directory corresponds to a route in your application. route parameters dynamic routes are created by wrapping a filename in square brackets: - → - → layout routes create a file to define a layout for all routes in a directory. layouts can be nested. pages and components pages () a file in any directory creates a route. this file exports a default svelte component. layouts () layouts are svelte components that wrap other components. they receive a prop and a slot. server and client code server code () functions in a file named run only on the server. use this to: - query databases - access environment variables - handle sensitive operations client code code in files runs in the browser. use this to: - handle user interactions - manage client state - update the dom loading data the function in a or file runs before the component renders: the data is then available in your component."
+  },
+  {
+    "slug": "components",
+    "title": "Components",
+    "content": "Components Svelte components are the building blocks of your application. Learn how to create and use them effectively. Basic Structure A Svelte component is a file that contains markup, styles, and logic: Reactive Variables In Svelte 5, use to declare reactive variables: When changes, the UI updates automatically. Props Accept data from parent components using : Slots Create flexible components with slots: Named slots allow multiple content areas: Events Handle events with event directives: Forward events from child components: Lifecycle Svelte components have a lifecycle with effects and callbacks available through the module.",
+    "headings": [
+      "Basic Structure",
+      "Reactive Variables",
+      "Props",
+      "Slots",
+      "Events",
+      "Lifecycle"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "Basic Structure",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Reactive Variables",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Props",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Slots",
+        "level": 2,
+        "id": "heading-4"
+      },
+      {
+        "text": "Events",
+        "level": 2,
+        "id": "heading-5"
+      },
+      {
+        "text": "Lifecycle",
+        "level": 2,
+        "id": "heading-6"
+      }
+    ],
+    "searchText": "components basic structure reactive variables props slots events lifecycle components svelte components are the building blocks of your application. learn how to create and use them effectively. basic structure a svelte component is a file that contains markup, styles, and logic: reactive variables in svelte 5, use to declare reactive variables: when changes, the ui updates automatically. props accept data from parent components using : slots create flexible components with slots: named slots allow multiple content areas: events handle events with event directives: forward events from child components: lifecycle svelte components have a lifecycle with effects and callbacks available through the module."
+  },
+  {
+    "slug": "configuration",
+    "title": "Configuration",
+    "content": "Configuration Learn how to configure SvelteKit for your specific needs and deployment requirements. SvelteKit Configuration SvelteKit is configured through the file in your project root. Basic Configuration Adapters Adapters determine how your app is deployed: Auto Adapter (Default) Automatically detects your deployment platform. Static Adapter For static sites: Node Adapter For Node.js servers: Vercel Adapter For Vercel deployment: Paths Configuration Configure base paths and asset paths: Preprocessing Configure preprocessors for your Svelte components: Environment Variables Public Variables Variables prefixed with are available in the browser: Private Variables Server-only variables: CSP Configuration Content Security Policy configuration: Vite Configuration Configure Vite through : TypeScript Configuration Configure TypeScript in :",
+    "headings": [
+      "SvelteKit Configuration",
+      "Basic Configuration",
+      "Adapters",
+      "Auto Adapter (Default)",
+      "Static Adapter",
+      "Node Adapter",
+      "Vercel Adapter",
+      "Paths Configuration",
+      "Preprocessing",
+      "Environment Variables",
+      "Public Variables",
+      "Private Variables",
+      "CSP Configuration",
+      "Vite Configuration",
+      "TypeScript Configuration"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "SvelteKit Configuration",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Basic Configuration",
+        "level": 3,
+        "id": "heading-1-1"
+      },
+      {
+        "text": "Adapters",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Auto Adapter (Default)",
+        "level": 3,
+        "id": "heading-2-1"
+      },
+      {
+        "text": "Static Adapter",
+        "level": 3,
+        "id": "heading-2-2"
+      },
+      {
+        "text": "Node Adapter",
+        "level": 3,
+        "id": "heading-2-3"
+      },
+      {
+        "text": "Vercel Adapter",
+        "level": 3,
+        "id": "heading-2-4"
+      },
+      {
+        "text": "Paths Configuration",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Preprocessing",
+        "level": 2,
+        "id": "heading-4"
+      },
+      {
+        "text": "Environment Variables",
+        "level": 2,
+        "id": "heading-5"
+      },
+      {
+        "text": "Public Variables",
+        "level": 3,
+        "id": "heading-5-1"
+      },
+      {
+        "text": "Private Variables",
+        "level": 3,
+        "id": "heading-5-2"
+      },
+      {
+        "text": "CSP Configuration",
+        "level": 2,
+        "id": "heading-6"
+      },
+      {
+        "text": "Vite Configuration",
+        "level": 2,
+        "id": "heading-7"
+      },
+      {
+        "text": "TypeScript Configuration",
+        "level": 2,
+        "id": "heading-8"
+      }
+    ],
+    "searchText": "configuration sveltekit configuration basic configuration adapters auto adapter (default) static adapter node adapter vercel adapter paths configuration preprocessing environment variables public variables private variables csp configuration vite configuration typescript configuration configuration learn how to configure sveltekit for your specific needs and deployment requirements. sveltekit configuration sveltekit is configured through the file in your project root. basic configuration adapters adapters determine how your app is deployed: auto adapter (default) automatically detects your deployment platform. static adapter for static sites: node adapter for node.js servers: vercel adapter for vercel deployment: paths configuration configure base paths and asset paths: preprocessing configure preprocessors for your svelte components: environment variables public variables variables prefixed with are available in the browser: private variables server-only variables: csp configuration content security policy configuration: vite configuration configure vite through : typescript configuration configure typescript in :"
+  },
+  {
+    "slug": "data-loading",
+    "title": "Data Loading",
+    "content": "Data Loading SvelteKit provides powerful data loading capabilities to fetch and prepare data before rendering your pages. Load Functions A function in , , or runs before the component renders: The returned data is available in the component: Server vs Client Loading Server Loading () Use server load functions to: - Access databases - Use environment variables - Keep secrets safe Client Loading () Use client load functions to: - Access the client-side page store - Use client-only data sources Route Parameters Access route parameters in load functions: Error Handling Throw errors in load functions to trigger error pages: Reloading Data Force a reload of data with :",
+    "headings": [
+      "Load Functions",
+      "Server vs Client Loading",
+      "Server Loading (`+page.server.js`)",
+      "Client Loading (`+page.js`)",
+      "Route Parameters",
+      "Error Handling",
+      "Reloading Data"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "Load Functions",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Server vs Client Loading",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Server Loading (`+page.server.js`)",
+        "level": 3,
+        "id": "heading-2-1"
+      },
+      {
+        "text": "Client Loading (`+page.js`)",
+        "level": 3,
+        "id": "heading-2-2"
+      },
+      {
+        "text": "Route Parameters",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Error Handling",
+        "level": 2,
+        "id": "heading-4"
+      },
+      {
+        "text": "Reloading Data",
+        "level": 2,
+        "id": "heading-5"
+      }
+    ],
+    "searchText": "data loading load functions server vs client loading server loading (`+page.server.js`) client loading (`+page.js`) route parameters error handling reloading data data loading sveltekit provides powerful data loading capabilities to fetch and prepare data before rendering your pages. load functions a function in , , or runs before the component renders: the returned data is available in the component: server vs client loading server loading () use server load functions to: - access databases - use environment variables - keep secrets safe client loading () use client load functions to: - access the client-side page store - use client-only data sources route parameters access route parameters in load functions: error handling throw errors in load functions to trigger error pages: reloading data force a reload of data with :"
+  },
+  {
+    "slug": "installation",
+    "title": "Installation",
+    "content": "Installation Learn how to install and set up SvelteKit for your development environment. Prerequisites Before installing SvelteKit, make sure you have the following installed on your system: - Node.js (version 18 or higher) - npm, yarn, or pnpm package manager - A code editor (VS Code recommended) Creating a New Project The easiest way to start a new SvelteKit project is using the command: Interactive Setup The create-svelte command will ask you several questions: 1. Which Svelte app template? - Choose from skeleton, demo, or library 2. Add type checking with TypeScript? - Recommended for larger projects 3. Select additional options - ESLint, Prettier, Playwright, Vitest Manual Installation If you prefer to set up SvelteKit manually: Project Structure After installation, your project will have this structure: Development Server Start the development server with: Your app will be available at . Next Steps Now that you have SvelteKit installed, you can: - Explore the project structure - Learn about routing - Start building components",
+    "headings": [
+      "Prerequisites",
+      "Creating a New Project",
+      "Interactive Setup",
+      "Manual Installation",
+      "Project Structure",
+      "Development Server",
+      "Next Steps"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "Prerequisites",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Creating a New Project",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Interactive Setup",
+        "level": 3,
+        "id": "heading-2-1"
+      },
+      {
+        "text": "Manual Installation",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Project Structure",
+        "level": 2,
+        "id": "heading-4"
+      },
+      {
+        "text": "Development Server",
+        "level": 2,
+        "id": "heading-5"
+      },
+      {
+        "text": "Next Steps",
+        "level": 2,
+        "id": "heading-6"
+      }
+    ],
+    "searchText": "installation prerequisites creating a new project interactive setup manual installation project structure development server next steps installation learn how to install and set up sveltekit for your development environment. prerequisites before installing sveltekit, make sure you have the following installed on your system: - node.js (version 18 or higher) - npm, yarn, or pnpm package manager - a code editor (vs code recommended) creating a new project the easiest way to start a new sveltekit project is using the command: interactive setup the create-svelte command will ask you several questions: 1. which svelte app template? - choose from skeleton, demo, or library 2. add type checking with typescript? - recommended for larger projects 3. select additional options - eslint, prettier, playwright, vitest manual installation if you prefer to set up sveltekit manually: project structure after installation, your project will have this structure: development server start the development server with: your app will be available at . next steps now that you have sveltekit installed, you can: - explore the project structure - learn about routing - start building components"
+  },
+  {
+    "slug": "introduction",
+    "title": "Introduction",
+    "content": "Introduction Welcome to this documentation site built with SvelteKit and mdsvex. What is SvelteKit? SvelteKit is a framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing. It is built on Svelte, which is a lightweight, compiler-focused JavaScript framework that writes less boilerplate code. Features - Filesystem-based routing - Create pages by adding files to your directory - Server and client rendering - Render content on the server for better SEO, or on the client for faster interactions - API routes - Build your backend alongside your frontend - Data loading - Load data before rendering pages with - Forms and actions - Handle form submissions with actions Getting Started To start building with SvelteKit: 1. Create a new project with 2. Install dependencies with 3. Start the development server with 4. Open in your browser That's it! You're ready to build amazing web applications.",
+    "headings": [
+      "What is SvelteKit?",
+      "Features",
+      "Getting Started"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "What is SvelteKit?",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Features",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Getting Started",
+        "level": 2,
+        "id": "heading-3"
+      }
+    ],
+    "searchText": "introduction what is sveltekit? features getting started introduction welcome to this documentation site built with sveltekit and mdsvex. what is sveltekit? sveltekit is a framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing. it is built on svelte, which is a lightweight, compiler-focused javascript framework that writes less boilerplate code. features - filesystem-based routing - create pages by adding files to your directory - server and client rendering - render content on the server for better seo, or on the client for faster interactions - api routes - build your backend alongside your frontend - data loading - load data before rendering pages with - forms and actions - handle form submissions with actions getting started to start building with sveltekit: 1. create a new project with 2. install dependencies with 3. start the development server with 4. open in your browser that's it! you're ready to build amazing web applications."
+  },
+  {
+    "slug": "project-structure",
+    "title": "Project Structure",
+    "content": "Project Structure Understanding the SvelteKit project structure is essential for building scalable applications. Overview A typical SvelteKit project has the following structure: Source Directory () The directory contains all your application source code. Routes () The routes directory uses file-based routing: - - Creates a page - - Shared layout for pages - - Error boundary - - Loading state - - Page data loading - - Layout data loading Library () Store reusable components, utilities, and stores: - - Reusable Svelte components - - Svelte stores for state management - - Utility functions - - TypeScript type definitions App Files - - HTML template - - Global styles - - TypeScript declarations Static Directory The directory contains static assets: - Images, fonts, and other media - , - Any files that should be served as-is Configuration Files Main SvelteKit configuration: Vite bundler configuration: Best Practices 1. Organize by feature - Group related files together 2. Use the lib directory - For reusable code 3. Keep routes simple - Move complex logic to lib 4. Follow naming conventions - Use prefix for special files File Naming Conventions - - Page component - - Layout component - - Error boundary - - Page load function - - Layout load function - - Server-only page load - - Server-only layout load",
+    "headings": [
+      "Overview",
+      "Source Directory (`src/`)",
+      "Routes (`src/routes/`)",
+      "Library (`src/lib/`)",
+      "App Files",
+      "Static Directory",
+      "Configuration Files",
+      "`svelte.config.js`",
+      "`vite.config.js`",
+      "Best Practices",
+      "File Naming Conventions"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "Overview",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Source Directory (`src/`)",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Routes (`src/routes/`)",
+        "level": 3,
+        "id": "heading-2-1"
+      },
+      {
+        "text": "Library (`src/lib/`)",
+        "level": 3,
+        "id": "heading-2-2"
+      },
+      {
+        "text": "App Files",
+        "level": 3,
+        "id": "heading-2-3"
+      },
+      {
+        "text": "Static Directory",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Configuration Files",
+        "level": 2,
+        "id": "heading-4"
+      },
+      {
+        "text": "`svelte.config.js`",
+        "level": 3,
+        "id": "heading-4-1"
+      },
+      {
+        "text": "`vite.config.js`",
+        "level": 3,
+        "id": "heading-4-2"
+      },
+      {
+        "text": "Best Practices",
+        "level": 2,
+        "id": "heading-5"
+      },
+      {
+        "text": "File Naming Conventions",
+        "level": 2,
+        "id": "heading-6"
+      }
+    ],
+    "searchText": "project structure overview source directory (`src/`) routes (`src/routes/`) library (`src/lib/`) app files static directory configuration files `svelte.config.js` `vite.config.js` best practices file naming conventions project structure understanding the sveltekit project structure is essential for building scalable applications. overview a typical sveltekit project has the following structure: source directory () the directory contains all your application source code. routes () the routes directory uses file-based routing: - - creates a page - - shared layout for pages - - error boundary - - loading state - - page data loading - - layout data loading library () store reusable components, utilities, and stores: - - reusable svelte components - - svelte stores for state management - - utility functions - - typescript type definitions app files - - html template - - global styles - - typescript declarations static directory the directory contains static assets: - images, fonts, and other media - , - any files that should be served as-is configuration files main sveltekit configuration: vite bundler configuration: best practices 1. organize by feature - group related files together 2. use the lib directory - for reusable code 3. keep routes simple - move complex logic to lib 4. follow naming conventions - use prefix for special files file naming conventions - - page component - - layout component - - error boundary - - page load function - - layout load function - - server-only page load - - server-only layout load"
+  },
+  {
+    "slug": "routing",
+    "title": "Routing",
+    "content": "Routing SvelteKit's filesystem-based router makes it easy to create and organize your application's routes. Route Structure Routes are determined by the directory structure of your directory. Each file in this directory becomes a route. Dynamic Routes Create dynamic routes by wrapping a segment in square brackets: The parameter is available via the store: Rest Parameters Catch multiple segments with rest parameters: The path is available as an array in . Layout Nesting Layouts can be nested to share UI across multiple routes: Server Routes Create API endpoints with files: Error Handling Create a file to handle errors in your route:",
+    "headings": [
+      "Route Structure",
+      "Dynamic Routes",
+      "Rest Parameters",
+      "Layout Nesting",
+      "Server Routes",
+      "Error Handling"
+    ],
+    "headingsWithIds": [
+      {
+        "text": "Route Structure",
+        "level": 2,
+        "id": "heading-1"
+      },
+      {
+        "text": "Dynamic Routes",
+        "level": 2,
+        "id": "heading-2"
+      },
+      {
+        "text": "Rest Parameters",
+        "level": 2,
+        "id": "heading-3"
+      },
+      {
+        "text": "Layout Nesting",
+        "level": 2,
+        "id": "heading-4"
+      },
+      {
+        "text": "Server Routes",
+        "level": 2,
+        "id": "heading-5"
+      },
+      {
+        "text": "Error Handling",
+        "level": 2,
+        "id": "heading-6"
+      }
+    ],
+    "searchText": "routing route structure dynamic routes rest parameters layout nesting server routes error handling routing sveltekit's filesystem-based router makes it easy to create and organize your application's routes. route structure routes are determined by the directory structure of your directory. each file in this directory becomes a route. dynamic routes create dynamic routes by wrapping a segment in square brackets: the parameter is available via the store: rest parameters catch multiple segments with rest parameters: the path is available as an array in . layout nesting layouts can be nested to share ui across multiple routes: server routes create api endpoints with files: error handling create a file to handle errors in your route:"
+  }
+]

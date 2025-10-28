@@ -30,10 +30,11 @@
 	let headings = $state<HeadingItem[]>([]);
 	let contentDiv: HTMLElement | null = null;
 	let searchQuery = $state('');
-	let searchResults = $state<Array<{ slug: string; label: string; category: string }>>([]);
+	let searchResults = $state<Array<{ slug: string; label: string; category: string; excerpt?: string; targetHeading?: string }>>([]);
 	let showSearchResults = $state(false);
 	let darkMode = $state(false);
 	let activeHeadingId = $state<string>('');
+	let searchIndex = $state<Array<any>>([]);
 	let { children } = $props();
 
 	// Compute navigation URLs based on current environment
@@ -95,6 +96,22 @@
 		}
 	});
 
+	// Load search index on mount
+	$effect(() => {
+		if (typeof window !== 'undefined') {
+			fetch('/search-index.json')
+				.then(response => response.json())
+				.then(data => {
+					searchIndex = data;
+					console.log('Search index loaded with', data.length, 'pages');
+				})
+				.catch(error => {
+					console.warn('Could not load search index:', error);
+					// Fallback to navigation search only
+				});
+		}
+	});
+
 	function toggleDarkMode() {
 		darkMode = !darkMode;
 		console.log('Dark mode toggled:', darkMode);
@@ -115,15 +132,107 @@
 			return;
 		}
 
-		// Filter navigation items based on search query
-		searchResults = allNavItems
-			.filter(
-				(item) =>
-					item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-					item.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
-					item.category.toLowerCase().includes(searchQuery.toLowerCase())
-			)
-			.slice(0, 8); // Limit to 8 results
+		const query = searchQuery.toLowerCase().trim();
+		
+		if (searchIndex.length > 0) {
+			// Use full-content search
+			const results = searchIndex
+				.map(page => {
+					let score = 0;
+					let excerpt = '';
+					let targetHeading = '';
+					
+					// Title match (highest priority)
+					if (page.title.toLowerCase().includes(query)) {
+						score += 100;
+					}
+					
+					// Heading match (high priority)
+					if (page.headingsWithIds) {
+						// Use pre-computed heading IDs from updated search index
+						const matchingHeading = page.headingsWithIds.find(heading => 
+							heading.text.toLowerCase().includes(query)
+						);
+						
+						if (matchingHeading) {
+							score += 50;
+							excerpt = matchingHeading.text;
+							targetHeading = matchingHeading.id;
+						}
+					} else if (page.headings) {
+						// Fallback for old search index format
+						const headingMatch = page.headings.find(h => h.toLowerCase().includes(query));
+						if (headingMatch) {
+							score += 50;
+							excerpt = headingMatch;
+							// Find the heading index to create an anchor
+							const headingIndex = page.headings.indexOf(headingMatch);
+							if (headingIndex >= 0) {
+								// Create heading ID similar to ContentWrapper logic
+								let h2Count = 0;
+								let h3Count = 0;
+								for (let i = 0; i <= headingIndex; i++) {
+									const heading = page.headings[i];
+									// Simple heuristic: longer headings are likely H2, shorter ones H3
+									if (heading.length > 20 || i === 0) {
+										h2Count++;
+										h3Count = 0;
+										if (i === headingIndex) {
+											targetHeading = `heading-${h2Count}`;
+										}
+									} else {
+										h3Count++;
+										if (i === headingIndex) {
+											targetHeading = `heading-${h2Count}-${h3Count}`;
+										}
+									}
+								}
+							}
+						}
+					}
+					
+					// Content match (lower priority)
+					const contentIndex = page.searchText.indexOf(query);
+					if (contentIndex !== -1) {
+						score += 10;
+						
+						// Extract excerpt around the match
+						if (!excerpt) {
+							const start = Math.max(0, contentIndex - 60);
+							const end = Math.min(page.searchText.length, contentIndex + 60);
+							excerpt = page.searchText.slice(start, end);
+							
+							// Clean up excerpt
+							if (start > 0) excerpt = '...' + excerpt;
+							if (end < page.searchText.length) excerpt = excerpt + '...';
+						}
+					}
+					
+					return score > 0 ? {
+						slug: page.slug,
+						label: page.title,
+						category: 'Documentation',
+						excerpt,
+						score,
+						targetHeading
+					} : null;
+				})
+				.filter(result => result !== null)
+				.sort((a, b) => b.score - a.score)
+				.slice(0, 6);
+			
+			searchResults = results;
+		} else {
+			// Fallback to navigation search only
+			searchResults = allNavItems
+				.filter(
+					(item) =>
+						item.label.toLowerCase().includes(query) ||
+						item.slug.toLowerCase().includes(query) ||
+						item.category.toLowerCase().includes(query)
+				)
+				.slice(0, 6);
+		}
 
 		showSearchResults = true;
 	}
@@ -157,12 +266,36 @@
 		}
 	}
 
-	function selectSearchResult(slug: string) {
+	function selectSearchResult(slug: string, targetHeading?: string) {
 		showSearchResults = false;
 		searchQuery = '';
 		
-		// Navigate to the selected page
-		window.location.href = getUrlForSlug(slug);
+		// Check if we're already on the target page
+		const currentSlug = $page.url.pathname.replace('/', '').replace('.html', '') || '';
+		
+		if (currentSlug === slug && targetHeading) {
+			// Same page - just scroll to the heading like the sidebar does
+			setTimeout(() => {
+				const element = document.getElementById(targetHeading);
+				if (element && contentDiv) {
+					const elementTop = element.offsetTop;
+					contentDiv.scrollTo({
+						top: elementTop - 100, // Add some offset from the top
+						behavior: 'smooth'
+					});
+				}
+			}, 100);
+		} else {
+			// Different page - navigate with anchor
+			let url = navUrls[slug] || `/${slug}`;
+			
+			// Add anchor link if we have a target heading
+			if (targetHeading) {
+				url += `#${targetHeading}`;
+			}
+			
+			window.location.href = url;
+		}
 	}
 
 	function handleHeadingsExtracted(items: HeadingItem[]) {
@@ -174,6 +307,21 @@
 				window.scrollCleanup();
 			}
 			setupIntersectionObserver();
+			
+			// Check if there's an anchor in the URL and scroll to it
+			setTimeout(() => {
+				const hash = window.location.hash;
+				if (hash && contentDiv) {
+					const element = document.getElementById(hash.substring(1));
+					if (element) {
+						const elementTop = element.offsetTop;
+						contentDiv.scrollTo({
+							top: elementTop - 100,
+							behavior: 'smooth'
+						});
+					}
+				}
+			}, 200);
 		}
 	}
 
@@ -319,11 +467,14 @@
 						{#each searchResults as result}
 							<button
 								type="button"
-								onclick={() => selectSearchResult(result.slug)}
+								onclick={() => selectSearchResult(result.slug, result.targetHeading)}
 								class="w-full border-b border-gray-100 px-4 py-2 text-left last:border-b-0 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
 							>
 								<div class="text-sm font-medium text-gray-900 dark:text-white">{result.label}</div>
 								<div class="text-xs text-gray-500 dark:text-gray-400">{result.category}</div>
+								{#if result.excerpt}
+									<div class="text-xs text-gray-600 dark:text-gray-300 mt-1 truncate">{result.excerpt}</div>
+								{/if}
 							</button>
 						{/each}
 					</div>
