@@ -43,15 +43,16 @@
 	$effect(() => {
 		if (typeof window !== 'undefined') {
 			const urls: Record<string, string> = {};
-			const isStaticServer = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+			const isDevelopment = window.location.port === '5173'; // Vite dev server
+			const isPreview = window.location.port === '4173'; // Vite preview server
 			const isFileProtocol = window.location.protocol === 'file:';
 			
 			// Add home URL
-			urls[''] = isStaticServer || isFileProtocol ? 'index.html' : '/';
+			urls[''] = (isPreview || isFileProtocol) ? 'index.html' : '/';
 			
 			// Add URLs for all navigation items
 			allNavItems.forEach(item => {
-				urls[item.slug] = isStaticServer || isFileProtocol ? `${item.slug}.html` : `/${item.slug}`;
+				urls[item.slug] = (isPreview || isFileProtocol) ? `${item.slug}.html` : `/${item.slug}`;
 			});
 			
 			navUrls = urls;
@@ -254,14 +255,15 @@
 	function getUrlForSlug(slug: string): string {
 		if (typeof window === 'undefined') return `/${slug}`;
 		
-		const isStaticServer = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+		const isDevelopment = window.location.port === '5173'; // Vite dev server
+		const isPreview = window.location.port === '4173'; // Vite preview server
 		const isFileProtocol = window.location.protocol === 'file:';
 		
-		if (isStaticServer || isFileProtocol) {
+		if (isPreview || isFileProtocol) {
 			// Static site - use .html extension
 			return slug === '' ? 'index.html' : `${slug}.html`;
 		} else {
-			// SvelteKit routing - use clean URLs
+			// SvelteKit development or production - use clean URLs
 			return `/${slug}`;
 		}
 	}
