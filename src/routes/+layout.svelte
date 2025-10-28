@@ -77,6 +77,11 @@
 	function toggleDarkMode() {
 		darkMode = !darkMode;
 		console.log('Dark mode toggled:', darkMode);
+
+		// Use the global theme application function for immediate and forced styling
+		if (typeof window !== 'undefined' && window.applyTheme) {
+			window.applyTheme(darkMode);
+		}
 	}
 
 	function handleSearch(event: Event) {

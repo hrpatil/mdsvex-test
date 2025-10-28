@@ -4,47 +4,77 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script>
-			// Prevent flash of wrong theme
+			// Aggressive theme management
 			(function () {
-				const stored = localStorage.getItem('darkMode');
-				if (stored === 'true') {
-					document.documentElement.classList.add('dark');
-				} else if (stored === 'false') {
-					document.documentElement.classList.remove('dark');
-				} else {
-					// First visit - check system preference
-					if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				function applyTheme(isDark) {
+					// Set the class
+					if (isDark) {
 						document.documentElement.classList.add('dark');
 					} else {
 						document.documentElement.classList.remove('dark');
 					}
+
+					// Force background colors with !important
+					const styleId = 'theme-override-styles';
+					let existingStyle = document.getElementById(styleId);
+					if (existingStyle) {
+						existingStyle.remove();
+					}
+
+					const style = document.createElement('style');
+					style.id = styleId;
+					style.textContent = isDark
+						? `
+						body { background-color: rgb(17, 24, 39) !important; color: rgb(226, 232, 240) !important; }
+						.prose { color: rgb(226, 232, 240) !important; background-color: transparent !important; }
+						.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 { color: rgb(248, 250, 252) !important; }
+						.prose p { color: rgb(226, 232, 240) !important; }
+						.prose strong { color: rgb(248, 250, 252) !important; }
+						.prose a { color: rgb(129, 140, 248) !important; }
+						.bg-white { background-color: rgb(17, 24, 39) !important; }
+						.bg-gray-900 { background-color: rgb(17, 24, 39) !important; }
+					`
+						: `
+						body { background-color: rgb(255, 255, 255) !important; color: rgb(55, 65, 81) !important; }
+						.prose { color: rgb(55, 65, 81) !important; background-color: rgb(255, 255, 255) !important; }
+						.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 { color: rgb(17, 24, 39) !important; }
+						.prose p { color: rgb(55, 65, 81) !important; }
+						.prose strong { color: rgb(17, 24, 39) !important; }
+						.prose a { color: rgb(37, 99, 235) !important; }
+						.bg-white { background-color: rgb(255, 255, 255) !important; }
+						.bg-gray-900 { background-color: rgb(255, 255, 255) !important; }
+					`;
+					document.head.appendChild(style);
 				}
 
-				// Force theme application after page load
+				// Initial theme setup
+				const stored = localStorage.getItem('darkMode');
+				let isDark;
+				if (stored === 'true') {
+					isDark = true;
+				} else if (stored === 'false') {
+					isDark = false;
+				} else {
+					// First visit - check system preference
+					isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+				}
+
+				applyTheme(isDark);
+
+				// Re-apply after DOM loads
+				document.addEventListener('DOMContentLoaded', function () {
+					applyTheme(isDark);
+				});
+
+				// Re-apply after full page load
 				window.addEventListener('load', function () {
 					setTimeout(function () {
-						const isDark = document.documentElement.classList.contains('dark');
-						const proseElements = document.querySelectorAll('.prose');
-						proseElements.forEach(function (el) {
-							if (isDark) {
-								el.style.color = 'rgb(226, 232, 240)';
-							} else {
-								el.style.color = 'rgb(55, 65, 81)';
-							}
-						});
-
-						const headings = document.querySelectorAll('.prose h1, .prose h2, .prose h3');
-						headings.forEach(function (el) {
-							if (isDark) {
-								el.style.color = 'rgb(248, 250, 252)';
-							} else {
-								el.style.color = 'rgb(17, 24, 39)';
-							}
-						});
-
-						console.log('Theme forced on load:', isDark ? 'dark' : 'light');
-					}, 50);
+						applyTheme(isDark);
+					}, 100);
 				});
+
+				// Make applyTheme globally available for the layout component
+				window.applyTheme = applyTheme;
 			})();
 		</script>
 		%sveltekit.head%
