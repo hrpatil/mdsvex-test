@@ -15,13 +15,27 @@ const config = {
 	],
 	kit: {
 		adapter: adapter({
-			// Default options - generates static files in build/ directory
 			pages: 'build',
 			assets: 'build',
 			fallback: undefined,
 			precompress: false,
 			strict: true
-		})
+		}),
+		prerender: {
+			handleHttpError: 'warn',
+			handleMissingId: 'warn',
+			entries: [
+				'/',
+				'/basic-concepts',
+				'/components',
+				'/configuration',
+				'/data-loading',
+				'/installation',
+				'/introduction',
+				'/project-structure',
+				'/routing'
+			]
+		}
 	},
 	extensions: ['.svelte', '.md']
 };
