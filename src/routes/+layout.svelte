@@ -36,6 +36,27 @@
 	let activeHeadingId = $state<string>('');
 	let { children } = $props();
 
+	// Compute navigation URLs based on current environment
+	let navUrls = $state<Record<string, string>>({});
+	
+	$effect(() => {
+		if (typeof window !== 'undefined') {
+			const urls: Record<string, string> = {};
+			const isStaticServer = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+			const isFileProtocol = window.location.protocol === 'file:';
+			
+			// Add home URL
+			urls[''] = isStaticServer || isFileProtocol ? 'index.html' : '/';
+			
+			// Add URLs for all navigation items
+			allNavItems.forEach(item => {
+				urls[item.slug] = isStaticServer || isFileProtocol ? `${item.slug}.html` : `/${item.slug}`;
+			});
+			
+			navUrls = urls;
+		}
+	});
+
 	// Flatten all navigation items for search
 	const allNavItems = navGroups.flatMap((group) =>
 		group.items.map((item) => ({
@@ -120,11 +141,28 @@
 		}, 150);
 	}
 
+	// Helper function to generate correct URLs for both static and SPA modes
+	function getUrlForSlug(slug: string): string {
+		if (typeof window === 'undefined') return `/${slug}`;
+		
+		const isStaticServer = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+		const isFileProtocol = window.location.protocol === 'file:';
+		
+		if (isStaticServer || isFileProtocol) {
+			// Static site - use .html extension
+			return slug === '' ? 'index.html' : `${slug}.html`;
+		} else {
+			// SvelteKit routing - use clean URLs
+			return `/${slug}`;
+		}
+	}
+
 	function selectSearchResult(slug: string) {
 		showSearchResults = false;
 		searchQuery = '';
+		
 		// Navigate to the selected page
-		window.location.href = `/${slug}`;
+		window.location.href = getUrlForSlug(slug);
 	}
 
 	function handleHeadingsExtracted(items: HeadingItem[]) {
@@ -235,7 +273,7 @@
 		<div class="flex items-center justify-between">
 			<!-- Logo and Brand -->
 			<div class="flex items-center space-x-4">
-				<a href="/" class="flex items-center space-x-2">
+				<a href={navUrls[''] || '/'} class="flex items-center space-x-2">
 					<svg class="h-8 w-8 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
 						<path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 9.739s9-4.189 9-9.739V7l-10-5z" />
 					</svg>
@@ -373,7 +411,7 @@
 								{#each group.items as item}
 									<li>
 										<a
-											href="/{item.slug}"
+											href={navUrls[item.slug] || `/${item.slug}`}
 											class="block px-3 py-2 text-sm transition-colors {$page.url.pathname ===
 											`/${item.slug}`
 												? 'font-semibold text-gray-900 dark:text-white'
